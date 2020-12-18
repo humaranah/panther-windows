@@ -1,61 +1,49 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 namespace Panther
 {
     /// <summary>
-    /// Proporciona un comportamiento específico de la aplicación para complementar la clase Application predeterminada.
+    /// Provides application-specific behavior to complement the default Application class.
     /// </summary>
     sealed partial class App : Application
     {
         /// <summary>
-        /// Inicializa el objeto de aplicación Singleton. Esta es la primera línea de código creado
-        /// ejecutado y, como tal, es el equivalente lógico de main() o WinMain().
+        /// Initializes the Singleton application object. This is the first line of created code
+        /// executed and as such is the logical equivalent of main() or WinMain().
         /// </summary>
         public App()
         {
-            this.InitializeComponent();
-            this.Suspending += OnSuspending;
+            InitializeComponent();
+            Suspending += OnSuspending;
         }
 
         /// <summary>
-        /// Se invoca cuando la aplicación la inicia normalmente el usuario final. Se usarán otros puntos
-        /// de entrada cuando la aplicación se inicie para abrir un archivo específico, por ejemplo.
+        /// Invoked when the application is normally started by the end user. Other entry points
+        /// will be used when the application starts to open a specific file, for example.
         /// </summary>
-        /// <param name="e">Información detallada acerca de la solicitud y el proceso de inicio.</param>
+        /// <param name="e">Detailed information about the application and the initialization process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
-            Frame rootFrame = Window.Current.Content as Frame;
-
-            // No repetir la inicialización de la aplicación si la ventana tiene contenido todavía,
-            // solo asegurarse de que la ventana está activa.
-            if (rootFrame == null)
+            // Do not repeat application initialization if the window still has content,
+            // just make sure the window is active.
+            if (!(Window.Current.Content is Frame rootFrame))
             {
-                // Crear un marco para que actúe como contexto de navegación y navegar a la primera página.
+                // Create a frame to act as a navigation context and navigate to the first page.
                 rootFrame = new Frame();
 
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {
-                    //TODO: Cargar el estado de la aplicación suspendida previamente
+                    //TODO: Load the state of the previously suspended application
                 }
 
-                // Poner el marco en la ventana actual.
+                // Put the frame in the current window.
                 Window.Current.Content = rootFrame;
             }
 
@@ -63,37 +51,37 @@ namespace Panther
             {
                 if (rootFrame.Content == null)
                 {
-                    // Cuando no se restaura la pila de navegación, navegar a la primera página,
-                    // configurando la nueva página pasándole la información requerida como
-                    //parámetro de navegación
+                    // When the navigation stack is not restored, navigate to the first page,
+                    // configuring the new page by passing it the required information
+                    // as a navigation parameter
                     rootFrame.Navigate(typeof(MainPage), e.Arguments);
                 }
-                // Asegurarse de que la ventana actual está activa.
+                // Make sure the current window is active.
                 Window.Current.Activate();
             }
         }
 
         /// <summary>
-        /// Se invoca cuando la aplicación la inicia normalmente el usuario final. Se usarán otros puntos
+        /// Invoked when the application is normally started by the end user. Other points will be used
         /// </summary>
-        /// <param name="sender">Marco que produjo el error de navegación</param>
-        /// <param name="e">Detalles sobre el error de navegación</param>
+        /// <param name="sender">Frame that produced the navigation error</param>
+        /// <param name="e">Details about the navigation error</param>
         void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
         {
             throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
         }
 
         /// <summary>
-        /// Se invoca al suspender la ejecución de la aplicación. El estado de la aplicación se guarda
-        /// sin saber si la aplicación se terminará o se reanudará con el contenido
-        /// de la memoria aún intacto.
+        /// Invoked when suspending execution of the application. The state of the application is saved
+        /// without knowing whether the application will be terminated or resumed with the contents
+        /// of memory still intact.
         /// </summary>
-        /// <param name="sender">Origen de la solicitud de suspensión.</param>
-        /// <param name="e">Detalles sobre la solicitud de suspensión.</param>
+        /// <param name="sender">Origin of the suspension request.</param>
+        /// <param name="e">Details on the suspension request.</param>
         private void OnSuspending(object sender, SuspendingEventArgs e)
         {
             var deferral = e.SuspendingOperation.GetDeferral();
-            //TODO: Guardar el estado de la aplicación y detener toda actividad en segundo plano
+            //TODO: Save application state and stop all background activity
             deferral.Complete();
         }
     }
